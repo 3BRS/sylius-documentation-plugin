@@ -11,11 +11,19 @@ services:
 
     League\CommonMark\CommonMarkConverter: ~
 
-    ThreeBRS\SyliusDocumentationPlugin\Controller\DocumentationController:
+    ThreeBRS\SyliusDocumentationPlugin\Controller\DocumentationControllerInterface:
+        class: ThreeBRS\SyliusDocumentationPlugin\Controller\DocumentationController
         public: true
         arguments:
-            - '@twig'
-            - '@League\CommonMark\CommonMarkConverter'
-            - '%threebrs_sylius_documentation.docs_path%'
-            - '%kernel.project_dir%'
-            - '@router'
+            $twig: '@twig'
+            $converter: '@League\CommonMark\CommonMarkConverter'
+            $docsPath: '%threebrs_sylius_documentation.docs_path%'
+            $projectDir: '%kernel.project_dir%'
+            $router: '@router'
+            $docsIndexRoute: 'threebrs_sylius_documentation_admin_index'
+            $docsShowRoute: 'threebrs_sylius_documentation_admin_show'
+            $docsImageRoute: 'threebrs_sylius_documentation_admin_image'
+
+    ThreeBRS\SyliusDocumentationPlugin\Controller\DocumentationController:
+        alias: ThreeBRS\SyliusDocumentationPlugin\Controller\DocumentationControllerInterface
+        public: true
