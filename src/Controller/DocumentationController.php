@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment as TwigEnvironment;
 
-readonly class DocumentationController
+readonly class DocumentationController implements DocumentationControllerInterface
 {
     public function __construct(
         private TwigEnvironment $twig,
@@ -19,6 +19,9 @@ readonly class DocumentationController
         private string $docsPath,
         private string $projectDir,
         private RouterInterface $router,
+        private string $docsIndexRoute,
+        private string $docsShowRoute,
+        private string $docsImageRoute,
     ) {
     }
 
@@ -52,9 +55,10 @@ readonly class DocumentationController
         }
 
         $files = is_dir($this->docsPath)
-            ? array_filter(scandir($this->docsPath) ?: [], fn (
-                $file,
-            ) => pathinfo($file, \PATHINFO_EXTENSION) === 'md')
+            ? array_filter(scandir($this->docsPath)
+                ?: [], fn (
+                    $file,
+                ) => pathinfo($file, \PATHINFO_EXTENSION) === 'md', )
             : [];
 
         $slugs = array_map(fn (
@@ -110,9 +114,10 @@ readonly class DocumentationController
         }
 
         $files = is_dir($this->docsPath)
-            ? array_filter(scandir($this->docsPath) ?: [], fn (
-                $file,
-            ) => pathinfo($file, \PATHINFO_EXTENSION) === 'md')
+            ? array_filter(scandir($this->docsPath)
+                ?: [], fn (
+                    $file,
+                ) => pathinfo($file, \PATHINFO_EXTENSION) === 'md', )
             : [];
 
         $slugs = array_map(fn (
@@ -163,10 +168,10 @@ readonly class DocumentationController
             $slug = pathinfo($matches[1], \PATHINFO_FILENAME);
 
             if ($slug === 'index') {
-                return sprintf('href="%s"', $this->router->generate('threebrs_sylius_documentation_admin_index'));
+                return sprintf('href="%s"', $this->router->generate($this->docsIndexRoute));
             }
 
-            return sprintf('href="%s"', $this->router->generate('threebrs_sylius_documentation_admin_show', ['slug' => $slug]));
+            return sprintf('href="%s"', $this->router->generate($this->docsShowRoute, ['slug' => $slug]));
         }, $html) ?? $html;
 
         $html = preg_replace_callback('/<img\s+[^>]*src="([^"\/]+)"[^>]*>/i', function (
@@ -184,7 +189,7 @@ readonly class DocumentationController
                 str_starts_with($imagePath, $basePath) &&
                 is_file($imagePath)
             ) {
-                $imageUrl = $this->router->generate('threebrs_sylius_documentation_admin_image', ['filename' => $filename]);
+                $imageUrl = $this->router->generate($this->docsImageRoute, ['filename' => $filename]);
 
                 return preg_replace('/src="[^"]+"/', 'src="' . $imageUrl . '"', $original) ?? $original;
             }
