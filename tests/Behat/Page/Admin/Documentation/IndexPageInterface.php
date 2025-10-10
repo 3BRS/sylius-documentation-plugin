@@ -10,8 +10,6 @@ interface IndexPageInterface extends PageInterface
 {
     public function hasContent(string $content): bool;
 
-    public function hasDocumentationFile(string $slug): bool;
-
     public function getDocumentationFiles(): array;
 
     public function clickDocumentationLink(string $slug): void;

@@ -18,11 +18,6 @@ class IndexPage extends SymfonyPage implements IndexPageInterface
         return str_contains($this->getDocument()->getContent(), $content);
     }
 
-    public function hasDocumentationFile(string $slug): bool
-    {
-        return $this->getDocument()->hasLink($slug);
-    }
-
     public function getDocumentationFiles(): array
     {
         $links = $this->getDocument()->findAll('css', 'a[href*="/documentation/"]');
