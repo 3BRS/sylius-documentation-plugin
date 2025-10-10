@@ -24,11 +24,11 @@
 - Secure access: only admins can view the docs
 
 <p align="center">
-  <img src="https://github.com/3BRS/sylius-documentation-plugin/blob/SLS-28-Sylius-docs-plugin/doc/documentation_menu.png?raw=true" alt="Admin Screenshot" />
+  <img src="https://github.com/3BRS/sylius-documentation-plugin/blob/main/docs/docs_index_example.png?raw=true" alt="Admin Screenshot" />
 </p> 
 
 <p align="center">
-  <img src="https://github.com/3BRS/sylius-documentation-plugin/blob/SLS-28-Sylius-docs-plugin/doc/doc_index.png?raw=true" alt="Admin Screenshot" />
+  <img src="https://github.com/3BRS/sylius-documentation-plugin/blob/main/docs/docs_item_example.png?raw=true" />
 </p>
 
 ## Installation

@@ -64,7 +64,7 @@
 
     ```yaml
     threebrs_sylius_documentation:
-        docs_path: '%kernel.cache_dir%/behat_docs'
+        docs_path: '%kernel.cache_dir%/our/custom/docs_dir'
     ```
 ## Usage
 
