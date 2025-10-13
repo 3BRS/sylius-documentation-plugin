@@ -5,7 +5,8 @@ services:
 
     ThreeBRS\SyliusDocumentationPlugin\Menu\AdminMenuListener:
         arguments:
-            - '@translator'
+            $translator: '@translator'
+            $documentationIndexRoute: 'threebrs_sylius_documentation_admin_index'
         tags:
             - { name: kernel.event_subscriber }
 
