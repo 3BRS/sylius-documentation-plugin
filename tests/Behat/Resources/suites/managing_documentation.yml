@@ -1,6 +1,6 @@
 default:
     suites:
-        managing_documentation:
+        3brs_managing_documentation:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
@@ -10,4 +10,4 @@ default:
                 - tests.threebrs_sylius_documentation.behat.context.ui.admin.managing_documentation
 
             filters:
-                tags: "@managing_documentation && @ui"
+                tags: "@3brs_managing_documentation && @ui"
