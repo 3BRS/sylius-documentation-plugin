@@ -8,13 +8,12 @@ use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AdminMenuListener implements EventSubscriberInterface
+readonly class AdminMenuListener implements EventSubscriberInterface
 {
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
+    public function __construct(
+        private TranslatorInterface $translator,
+        private string $documentationIndexRoute = 'threebrs_sylius_documentation_admin_index',
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -28,7 +27,7 @@ final class AdminMenuListener implements EventSubscriberInterface
     {
         $event->getMenu()
             ->addChild('threebrs_documentation_plugin', [
-                'route' => 'threebrs_sylius_documentation_admin_index',
+                'route' => $this->documentationIndexRoute,
             ])
             ->setLabel($this->translator->trans('threebrs_documentation_plugin.ui.admin.documentation.menu_title'))
             ->setLabelAttribute('icon', 'tabler:book');

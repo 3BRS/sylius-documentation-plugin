@@ -37,6 +37,7 @@
             <argument type="service" id="Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\Documentation\IndexPageInterface"/>
             <argument type="service" id="Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\Documentation\ShowPageInterface"/>
             <argument type="service" id="Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\ExtendedDashboardPageInterface"/>
+            <argument type="string">threebrs_sylius_documentation_admin_image</argument>
             <argument type="service" id="behat.mink.default_session"/>
             <argument type="service" id="router"/>
             <tag name="fob.context_service"/>

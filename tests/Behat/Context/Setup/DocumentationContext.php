@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class DocumentationContext implements Context
 {
@@ -20,30 +21,47 @@ final class DocumentationContext implements Context
      */
     public function thereAreNoDocumentationFilesInTheDocsDirectory(): void
     {
-        // Ensure documentation directory exists
-        if (!is_dir($this->docsPath)) {
-            mkdir($this->docsPath, 0755, true);
-        }
+        $this->createDir($this->docsPath);
+
         $files = glob($this->docsPath . '/*'); // Get all files in the directory
         foreach ($files as $file) {
             if (is_file($file)) {
-                unlink($file); // Delete the file
+                $this->deleteFile($file);
             }
         }
+    }
+
+    private function deleteFile(string $filePath): void
+    {
+        (new Filesystem())->remove($filePath);
+    }
+
+    private function createDir(string $dir): void
+    {
+        (new Filesystem())->mkdir($dir, 0755);
     }
 
     /**
      * @Given there is a :filename documentation file with content:
      */
-    public function thereIsADocumentationFileWithContent(string $filename, string $content): void
-    {
-        // Ensure documentation directory exists
-        if (!is_dir($this->docsPath)) {
-            mkdir($this->docsPath, 0755, true);
-        }
+    public function thereIsADocumentationFileWithContent(
+        string $filename,
+        string $content,
+    ): void {
+        $this->createDir($this->docsPath);
 
         $filePath = $this->docsPath . '/' . $filename;
-        file_put_contents($filePath, trim($content));
+
+        $this->createFile($filePath, $content);
+    }
+
+    private function createFile(
+        string $filePath,
+        string $content,
+    ): void {
+        if (file_put_contents($filePath, trim($content)) === false) {
+            throw new \RuntimeException(sprintf('Failed to create documentation file: %s', $filePath));
+        }
     }
 
     /**
@@ -51,14 +69,12 @@ final class DocumentationContext implements Context
      */
     public function thereIsADocumentationFile(string $filename): void
     {
-        // Ensure documentation directory exists
-        if (!is_dir($this->docsPath)) {
-            mkdir($this->docsPath, 0755, true);
-        }
+        $this->createDir($this->docsPath);
 
         $filePath = $this->docsPath . '/' . $filename;
-        $defaultContent = '# ' . ucfirst(str_replace(['-', '_'], ' ', pathinfo($filename, \PATHINFO_FILENAME))) . "\n\nThis is a sample documentation page.";
-        file_put_contents($filePath, $defaultContent);
+        $content = '# ' . ucfirst(str_replace(['-', '_'], ' ', pathinfo($filename, PATHINFO_FILENAME))) . "\n\nThis is a sample documentation page.";
+
+        $this->createFile($filePath, $content);
     }
 
     /**
@@ -68,7 +84,7 @@ final class DocumentationContext implements Context
     {
         $filePath = $this->docsPath . '/' . $filename;
         if (file_exists($filePath)) {
-            unlink($filePath);
+            $this->deleteFile($filePath);
         }
     }
 
@@ -77,10 +93,7 @@ final class DocumentationContext implements Context
      */
     public function thereIsAFileInTheDocsDirectory(string $filename): void
     {
-        // Ensure documentation directory exists
-        if (!is_dir($this->docsPath)) {
-            mkdir($this->docsPath, 0755, true);
-        }
+        $this->createDir($this->docsPath);
 
         $filePath = $this->docsPath . '/' . $filename;
 
@@ -88,10 +101,10 @@ final class DocumentationContext implements Context
         if (pathinfo($filename, \PATHINFO_EXTENSION) === 'png') {
             // Create a 1x1 pixel PNG
             $imageData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==');
-            file_put_contents($filePath, $imageData);
+            $this->createFile($filePath, $imageData);
         } else {
             // Create a simple text file
-            file_put_contents($filePath, 'Test file content');
+            $this->createFile($filePath, 'Test file content');
         }
     }
 }
