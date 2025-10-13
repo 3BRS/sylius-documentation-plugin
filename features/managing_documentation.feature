@@ -1,4 +1,4 @@
-@managing_documentation
+@3brs_managing_documentation
 Feature: Managing documentation pages
     In order to provide documentation to administrators
     As an Administrator
