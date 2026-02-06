@@ -9,6 +9,6 @@ use Sylius\Behat\Page\Admin\DashboardPageInterface;
 interface ExtendedDashboardPageInterface extends DashboardPageInterface
 {
     public function hasMenuItem(string $menuItem): bool;
-    
+
     public function clickMenuItem(string $menuItem): void;
 }

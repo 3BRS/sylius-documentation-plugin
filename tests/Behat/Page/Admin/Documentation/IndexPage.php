@@ -33,6 +33,7 @@ class IndexPage extends SymfonyPage implements IndexPageInterface
                 $files[] = $matches[1];
             }
         }
+
         return $files;
     }
 
@@ -49,6 +50,7 @@ class IndexPage extends SymfonyPage implements IndexPageInterface
                 return true;
             }
         }
+
         return false;
     }
 

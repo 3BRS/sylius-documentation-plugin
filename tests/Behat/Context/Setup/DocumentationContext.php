@@ -57,7 +57,7 @@ final class DocumentationContext implements Context
         }
 
         $filePath = $this->docsPath . '/' . $filename;
-        $defaultContent = "# " . ucfirst(str_replace(['-', '_'], ' ', pathinfo($filename, PATHINFO_FILENAME))) . "\n\nThis is a sample documentation page.";
+        $defaultContent = '# ' . ucfirst(str_replace(['-', '_'], ' ', pathinfo($filename, \PATHINFO_FILENAME))) . "\n\nThis is a sample documentation page.";
         file_put_contents($filePath, $defaultContent);
     }
 
@@ -85,7 +85,7 @@ final class DocumentationContext implements Context
         $filePath = $this->docsPath . '/' . $filename;
 
         // Create a simple image file for testing
-        if (pathinfo($filename, PATHINFO_EXTENSION) === 'png') {
+        if (pathinfo($filename, \PATHINFO_EXTENSION) === 'png') {
             // Create a 1x1 pixel PNG
             $imageData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==');
             file_put_contents($filePath, $imageData);
