@@ -1,0 +1,22 @@
+includes:
+    - phpstan.dist.neon
+
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    excludePaths:
+        - tests/Application/var/*
+        - tests/Application/node_modules/*
+
+    ignoreErrors:
+        -
+            message: '#has parameter \$optionsNode with generic class#'
+            path: src/Fixture/*.php
+        -
+            message: '#Call to method .* on an unknown class Symfony\\Component\\Config\\Definition\\Builder\\NodeBuilder#'
+            path: src/DependencyInjection/*.php
+        -
+            message: '#Cannot call method .* on mixed#'
+            path: src/DependencyInjection/*.php
+        -
+            message: '#return type with generic class#'
+            path: src/DependencyInjection/*.php

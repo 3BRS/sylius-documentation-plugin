@@ -30,7 +30,6 @@
         "friends-of-behat/symfony-extension": "v2.6.0",
         "friends-of-behat/variadic-extension": "^v1.6.0",
         "nyholm/psr7": "^1.8",
-        "phpspec/phpspec": "^7.5",
         "php-http/message-factory": "^1.1.0",
         "phpstan/phpstan": "^2.1.10",
         "phpstan/phpstan-doctrine": "^2.0.2",
