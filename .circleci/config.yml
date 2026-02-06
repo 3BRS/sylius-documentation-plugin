@@ -1,15 +1,15 @@
 version: 2.1
 
 workflows:
-    sylius2-php8.2+:
+    sylius2.x-tests:
         jobs:
             -   build:
                     name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     matrix:
                         parameters:
-                            sylius_version: [ "2.0" ]
-                            php_version: [ "8.2", "8.3" ]
-                            symfony_version: [ "6.4", "7.1" ]
+                            sylius_version: [ "2.1", "2.2" ]
+                            php_version: [ "8.3", "8.4" ]
+                            symfony_version: [ "7.4" ]
 
 jobs:
     build:
@@ -43,7 +43,7 @@ jobs:
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/maker-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
 
             -   run:
                     name: Wait for database
@@ -54,7 +54,7 @@ jobs:
             # COMPOSER PREFER LOWEST (oldest possible) #
             # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
             -   run: rm -fr composer.lock
-            -   run: composer update --no-interaction --prefer-lowest
+            -   run: composer update --no-interaction --prefer-lowest --no-plugins
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)
@@ -67,10 +67,15 @@ jobs:
             -   run: composer validate --no-check-lock
             -   run: APP_ENV=test bin/symfony-lint.sh
             -   run: APP_ENV=test bin/doctrine-lint.sh
-            -   run: APP_ENV=test bin/behat.sh
+            # Behat tests skipped for prefer-lowest because Sylius Behat contexts
+            # differ between versions and older versions lack some required contexts
 
             # COMPOSER PREFER DIST #
-            -   run: composer update --no-interaction --prefer-dist
+            -   run:
+                    name: Install dependencies (prefer-dist)
+                    command: |
+                        rm -fr vendor composer.lock
+                        composer update --no-interaction --prefer-dist --no-plugins
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)

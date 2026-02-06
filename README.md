@@ -87,6 +87,15 @@
 - You will see the `documentation/index.md` you created as a table of contents for your files.
 - Missing files will show **Not Found** with the name of the file not found.
 
+## Requirements
+
+| Package | Version |
+|---------|---------|
+| PHP | ^8.3 |
+| Sylius | ^2.1 |
+
+> For Sylius 2.0 support, use version 2.x of this plugin.
+
 ## Development
 
 ### Usage
