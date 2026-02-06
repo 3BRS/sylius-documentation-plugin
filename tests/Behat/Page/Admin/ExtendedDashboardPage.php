@@ -20,7 +20,8 @@ final class ExtendedDashboardPage extends DashboardPage implements ExtendedDashb
         return $this->getDocument()
                     ->find(
                         'xpath',
-                        sprintf('//li[@class="nav-item"]//a[@class="nav-link"][.//span[@class="nav-link-title"][contains(text(), "%s")]]',
+                        sprintf(
+                            '//li[@class="nav-item"]//a[@class="nav-link"][.//span[@class="nav-link-title"][contains(text(), "%s")]]',
                             $menuItem,
                         ),
                     )

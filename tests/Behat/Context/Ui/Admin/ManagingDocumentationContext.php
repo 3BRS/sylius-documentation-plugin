@@ -9,19 +9,19 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Session;
 use Sylius\Behat\Service\DriverHelper;
 use Symfony\Component\Routing\RouterInterface;
-use Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\ExtendedDashboardPageInterface;
 use Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\Documentation\IndexPageInterface;
 use Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\Documentation\ShowPageInterface;
+use Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\ExtendedDashboardPageInterface;
 use Webmozart\Assert\Assert;
 
 final readonly class ManagingDocumentationContext implements Context
 {
     public function __construct(
-        private ?IndexPageInterface             $indexPage = null,
-        private ?ShowPageInterface              $showPage = null,
+        private ?IndexPageInterface $indexPage = null,
+        private ?ShowPageInterface $showPage = null,
         private ?ExtendedDashboardPageInterface $dashboardPage = null,
-        private ?Session                        $session = null,
-        private ?RouterInterface                $router = null,
+        private ?Session $session = null,
+        private ?RouterInterface $router = null,
     ) {
     }
 
@@ -91,7 +91,7 @@ final readonly class ManagingDocumentationContext implements Context
     {
         // First ensure we're authenticated by visiting the dashboard
         $this->dashboardPage->open();
-        
+
         // Then generate the proper URL using the router and visit it
         $url = $this->router->generate('threebrs_sylius_documentation_admin_image', ['filename' => $filename]);
         $this->session->visit($url);
@@ -243,7 +243,8 @@ final readonly class ManagingDocumentationContext implements Context
             $this->showPage->hasErrorMessage($errorMessage),
             sprintf(
                 'Error message "%s" not found on page %s',
-                $errorMessage, $this->session?->getCurrentUrl() ?? 'unknown',
+                $errorMessage,
+                $this->session?->getCurrentUrl() ?? 'unknown',
             ),
         );
     }
