@@ -17,12 +17,12 @@ use Webmozart\Assert\Assert;
 final readonly class ManagingDocumentationContext implements Context
 {
     public function __construct(
-        private IndexPageInterface             $indexPage,
-        private ShowPageInterface              $showPage,
+        private IndexPageInterface $indexPage,
+        private ShowPageInterface $showPage,
         private ExtendedDashboardPageInterface $dashboardPage,
-        private string                         $imageRouteName,
-        private Session                        $session,
-        private RouterInterface                $router,
+        private string $imageRouteName,
+        private Session $session,
+        private RouterInterface $router,
     ) {
     }
 
