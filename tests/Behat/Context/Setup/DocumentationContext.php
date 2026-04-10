@@ -72,7 +72,7 @@ final class DocumentationContext implements Context
         $this->createDir($this->docsPath);
 
         $filePath = $this->docsPath . '/' . $filename;
-        $content = '# ' . ucfirst(str_replace(['-', '_'], ' ', pathinfo($filename, PATHINFO_FILENAME))) . "\n\nThis is a sample documentation page.";
+        $content = '# ' . ucfirst(str_replace(['-', '_'], ' ', pathinfo($filename, \PATHINFO_FILENAME))) . "\n\nThis is a sample documentation page.";
 
         $this->createFile($filePath, $content);
     }
