@@ -7,6 +7,8 @@ namespace Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Context\Ui\Admin;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Session;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Sylius\Behat\Service\DriverHelper;
 use Symfony\Component\Routing\RouterInterface;
 use Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Page\Admin\Documentation\IndexPageInterface;
@@ -26,33 +28,25 @@ final readonly class ManagingDocumentationContext implements Context
     ) {
     }
 
-    /**
-     * @When I visit the admin dashboard
-     */
+    #[When('I visit the admin dashboard')]
     public function iVisitTheAdminDashboard(): void
     {
         $this->dashboardPage->open();
     }
 
-    /**
-     * @Then I should see :menuItem menu item
-     */
+    #[Then('I should see :menuItem menu item')]
     public function iShouldSeeMenuItem(string $menuItem): void
     {
         Assert::true($this->dashboardPage->hasMenuItem($menuItem));
     }
 
-    /**
-     * @When I click :menuItem menu item
-     */
+    #[When('I click :menuItem menu item')]
     public function iClickMenuItem(string $menuItem): void
     {
         $this->dashboardPage->clickMenuItem($menuItem);
     }
 
-    /**
-     * @Then I should be redirected to the documentation index page
-     */
+    #[Then('I should be redirected to the documentation index page')]
     public function iShouldBeRedirectedToTheDocumentationIndexPage(): void
     {
         Assert::true(
@@ -61,33 +55,25 @@ final readonly class ManagingDocumentationContext implements Context
         );
     }
 
-    /**
-     * @When I go to the documentation index page
-     */
+    #[When('I go to the documentation index page')]
     public function iGoToTheDocumentationIndexPage(): void
     {
         $this->indexPage->open();
     }
 
-    /**
-     * @When I go to the documentation page for :slug
-     */
+    #[When('I go to the documentation page for :slug')]
     public function iGoToTheDocumentationPageFor(string $slug): void
     {
         $this->showPage->open(['slug' => $slug]);
     }
 
-    /**
-     * @When I try to access documentation page :slug
-     */
+    #[When('I try to access documentation page :slug')]
     public function iTryToAccessDocumentationPage(string $slug): void
     {
         $this->showPage->tryToOpen(['slug' => $slug]);
     }
 
-    /**
-     * @When I try to access documentation image :filename
-     */
+    #[When('I try to access documentation image :filename')]
     public function iTryToAccessDocumentationImage(string $filename): void
     {
         // First ensure we're authenticated by visiting the dashboard
@@ -98,25 +84,19 @@ final readonly class ManagingDocumentationContext implements Context
         $this->session->visit($url);
     }
 
-    /**
-     * @When I access the documentation image :filename
-     */
+    #[When('I access the documentation image :filename')]
     public function iAccessTheDocumentationImage(string $filename): void
     {
         $this->iTryToAccessDocumentationImage($filename);
     }
 
-    /**
-     * @Then I should see :content
-     */
+    #[Then('I should see :content')]
     public function iShouldSeeContent(string $content): void
     {
         Assert::true($this->indexPage->hasContent($content) || $this->showPage->hasContent($content));
     }
 
-    /**
-     * @Then I should see :content on index page
-     */
+    #[Then('I should see :content on index page')]
     public function iShouldSeeContentOnIndexPage(string $content): void
     {
         Assert::true(
@@ -125,18 +105,14 @@ final readonly class ManagingDocumentationContext implements Context
         );
     }
 
-    /**
-     * @Then I should not see any rendered content
-     */
+    #[Then('I should not see any rendered content')]
     public function iShouldNotSeeAnyRenderedContent(): void
     {
         // Check that there's no main content div with actual markdown content
         Assert::false($this->indexPage->hasContent('<h1>') && $this->indexPage->hasContent('<p>'));
     }
 
-    /**
-     * @Then I should see a list of available documentation files:
-     */
+    #[Then('I should see a list of available documentation files:')]
     public function iShouldSeeAListOfAvailableDocumentationFiles(TableNode $table): void
     {
         $expectedFiles = [];
@@ -158,17 +134,13 @@ final readonly class ManagingDocumentationContext implements Context
         }
     }
 
-    /**
-     * @Then I should see :heading heading
-     */
+    #[Then('I should see :heading heading')]
     public function iShouldSeeHeading(string $heading): void
     {
         Assert::true($this->indexPage->hasHeading($heading) || $this->showPage->hasHeading($heading));
     }
 
-    /**
-     * @Then I should see properly formatted markdown content
-     */
+    #[Then('I should see properly formatted markdown content')]
     public function iShouldSeeProperlyFormattedMarkdownContent(): void
     {
         // Check for bold and italic text formatting
@@ -176,34 +148,26 @@ final readonly class ManagingDocumentationContext implements Context
         Assert::true($this->showPage->hasContent('<em>') || $this->showPage->hasContent('<i>'));
     }
 
-    /**
-     * @Then I should see a code block with PHP code
-     */
+    #[Then('I should see a code block with PHP code')]
     public function iShouldSeeACodeBlockWithPhpCode(): void
     {
         Assert::true($this->showPage->hasCodeBlock(), 'No code block found on the page.');
         Assert::true($this->showPage->hasCodeBlockWithContent('echo "Hello World"'), 'Expected PHP code not found in the code block.');
     }
 
-    /**
-     * @Then I should see a bulleted list
-     */
+    #[Then('I should see a bulleted list')]
     public function iShouldSeeABulletedList(): void
     {
         Assert::true($this->showPage->hasBulletedList());
     }
 
-    /**
-     * @Then I should see the image displayed correctly
-     */
+    #[Then('I should see the image displayed correctly')]
     public function iShouldSeeTheImageDisplayedCorrectly(): void
     {
         Assert::true($this->showPage->hasImage());
     }
 
-    /**
-     * @When I click on :linkText link
-     */
+    #[When('I click on :linkText link')]
     public function iClickOnLink(string $linkText): void
     {
         if ($this->indexPage->isOpen()) {
@@ -216,17 +180,13 @@ final readonly class ManagingDocumentationContext implements Context
         DriverHelper::waitForPageToLoad($this->session);
     }
 
-    /**
-     * @Then I should be on the documentation page for :slug
-     */
+    #[Then('I should be on the documentation page for :slug')]
     public function iShouldBeOnTheDocumentationPageFor(string $slug): void
     {
         Assert::true($this->showPage->isOpen(['slug' => $slug]));
     }
 
-    /**
-     * @Then I should be on the documentation index page
-     */
+    #[Then('I should be on the documentation index page')]
     public function iShouldBeOnTheDocumentationIndexPage(): void
     {
         Assert::true(
@@ -235,9 +195,7 @@ final readonly class ManagingDocumentationContext implements Context
         );
     }
 
-    /**
-     * @Then I should see :errorMessage error
-     */
+    #[Then('I should see :errorMessage error')]
     public function iShouldSeeError(string $errorMessage): void
     {
         Assert::true(
@@ -250,9 +208,7 @@ final readonly class ManagingDocumentationContext implements Context
         );
     }
 
-    /**
-     * @Then I should see the image content
-     */
+    #[Then('I should see the image content')]
     public function iShouldSeeTheImageContent(): void
     {
         $contentType = $this->session->getResponseHeader('Content-Type');
@@ -266,9 +222,7 @@ final readonly class ManagingDocumentationContext implements Context
         );
     }
 
-    /**
-     * @Then the response should have proper image content type
-     */
+    #[Then('the response should have proper image content type')]
     public function theResponseShouldHaveProperImageContentType(): void
     {
         $contentType = $this->session->getResponseHeader('Content-Type');

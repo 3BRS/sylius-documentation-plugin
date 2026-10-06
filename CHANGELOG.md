@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.0
+
+### Changed
+
+- Updated Symfony dependencies to ^7.4 || ^8.0
+- Added compatibility with Sylius 2.3
+- Added compatibility with Symfony 8
+
 ## 2.2.0
 
 ### Changed

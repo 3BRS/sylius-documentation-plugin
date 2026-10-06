@@ -1,6 +1,6 @@
 imports:
-    - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
-    - { resource: "../../Behat/Resources/services.xml" }
+    - { resource: "sylius_behat_services.php" }
+    - { resource: "../../Behat/Resources/services.php" }
 
 threebrs_sylius_documentation:
     docs_path: '%kernel.cache_dir%/behat_docs'

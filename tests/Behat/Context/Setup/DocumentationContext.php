@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusDocumentationPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class DocumentationContext implements Context
@@ -16,9 +17,7 @@ final class DocumentationContext implements Context
         $this->docsPath = $docsPath;
     }
 
-    /**
-     * @Given there are no documentation files in the documentation directory
-     */
+    #[Given('there are no documentation files in the documentation directory')]
     public function thereAreNoDocumentationFilesInTheDocsDirectory(): void
     {
         $this->createDir($this->docsPath);
@@ -41,9 +40,7 @@ final class DocumentationContext implements Context
         (new Filesystem())->mkdir($dir, 0755);
     }
 
-    /**
-     * @Given there is a :filename documentation file with content:
-     */
+    #[Given('there is a :filename documentation file with content:')]
     public function thereIsADocumentationFileWithContent(
         string $filename,
         string $content,
@@ -64,9 +61,7 @@ final class DocumentationContext implements Context
         }
     }
 
-    /**
-     * @Given there is a :filename documentation file
-     */
+    #[Given('there is a :filename documentation file')]
     public function thereIsADocumentationFile(string $filename): void
     {
         $this->createDir($this->docsPath);
@@ -77,9 +72,7 @@ final class DocumentationContext implements Context
         $this->createFile($filePath, $content);
     }
 
-    /**
-     * @Given there is no :filename file
-     */
+    #[Given('there is no :filename file')]
     public function thereIsNoFile(string $filename): void
     {
         $filePath = $this->docsPath . '/' . $filename;
@@ -88,9 +81,7 @@ final class DocumentationContext implements Context
         }
     }
 
-    /**
-     * @Given there is a :filename file in the documentation directory
-     */
+    #[Given('there is a :filename file in the documentation directory')]
     public function thereIsAFileInTheDocsDirectory(string $filename): void
     {
         $this->createDir($this->docsPath);

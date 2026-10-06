@@ -93,8 +93,9 @@
 |---------|---------|
 | PHP | ^8.3 |
 | Sylius | ^2.1 |
+| Symfony | ^7.4 \|\| ^8.0 |
 
-> For Sylius 2.0 support, use version 2.x of this plugin.
+> For Sylius 2.0 support, use version 2.1.x of this plugin.
 
 ## Development
 
