@@ -69,6 +69,15 @@ jobs:
                         -   run: composer require --dev "behat/behat:^3.34" --no-interaction --no-update --no-scripts
                         -   run: cd tests/Application && npm pkg set "devDependencies.@symfony/webpack-encore=^5.0.1"
 
+            # Sylius 2.1 entity mapping fails doctrine:schema:validate with ORM 3.7, Sylius 2.2.10+ conflicts with it
+            -   when:
+                    condition:
+                        matches:
+                            pattern: "^2\\.1$"
+                            value: << parameters.sylius_version >>
+                    steps:
+                        -   run: composer require --dev "doctrine/orm:<3.7" --no-interaction --no-update --no-scripts
+
             -   run:
                     name: Wait for database
                     command:
